@@ -3,10 +3,34 @@
 
 #include "../include/lib_func.h"
 
-// クイックソート(引数が不適切であればfalseを返す)
+
 bool quick_sort(item* begin, const item* end)
 {
-	// ToDo: クイックソートで並び替えてください
+	if (begin == NULL || end == NULL || begin > end) return false;
 
-	return false;
+	if (end - begin <= 1) return true;
+
+	int pivot = begin[(end - begin) / 2].key;
+
+	item* left = begin;
+	item* right = (item*)end - 1;
+	while (left <= right)
+	{
+		while (left->key < pivot) left++;
+		while (right->key > pivot) right--;
+
+		if (left <= right)
+		{
+			item tmp = *left;
+			*left = *right;
+			*right = tmp;
+			left++;
+			right--;
+		}
+	}
+
+	quick_sort(begin, right + 1);
+	quick_sort(left, end);
+
+	return true;
 }
